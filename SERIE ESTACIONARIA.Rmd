@@ -5,7 +5,7 @@ author:
 - Barrales Agosti, Julián Guido (889.901)
 - Cohen Falah, Iván Nahuel (890.693)
 - Lopatka, Lucas Eitán (889.524)
-- Ignacio Borovsky (891.119)
+- Borovsky , Ignacio Ariel(891.119)
 html_document: default
 output:
   pdf_document: default
@@ -48,8 +48,7 @@ $$y_t=\phi_1y_{t-1}+...+\phi_py_{t-p}+\epsilon_t-\theta_1\epsilon_{t-1}-...-\the
 
 * Todos aquellos modelos que se pueden transformar en estacionarios mediante la toma de diferencias de un determinado orden son los denominados modelos ARIMA(p,d,q)  
 
-##Metodologia de elaboracion de modelos ARIMA  
-\  
+#### Metodologia de elaboracion de modelos ARIMA  
 \  
 \ Hasta ahora, se ha adoptado la perspectiva de un proceso conocido previamente, a partir del cual se han generado una o más realizaciones. El objetivo es, a partir de los valores de una serie temporal, llegar a un conocimiento del mecanismo que verosimilmente haya podido generar la serie.  
   
@@ -72,15 +71,13 @@ $$y_t=\phi_1y_{t-1}+...+\phi_py_{t-p}+\epsilon_t-\theta_1\epsilon_{t-1}-...-\the
   
 \ Ahora bien, el comportamiento de la FAC y la FACP da una intuición subjetiva del orden de integración del modelo. Con la finalidad de decidir si el proceso $y_t$ puede ser considerado o no estacionario se utilizará un test de raíz unitaria, particularmente el test de Dickey y Fuller.  
   
-\ La ecuación de Dickey y Fuller es $y_t-y_{t-1}=(\phi_1-1)y_{t-1}+\epsilon_t$ donde se testea la hipotesis nula de que $\phi_1-1=0$ que podria ser contrastada respecto de la alternativa $\phi_1-1<0$, se utiliza el estdístico Tau.
-\ Dickey y Fuller demostraron que la definicion de la zona crítica depende, ademas del tamaño de la muestra, de la forma de la ecuación autorregresiva (por ejemplo, si incluye o no término independente o términos de tendencia determinístca) y definieron tres clases de valores críticos para ser utilizados en los casos que:
+\ La ecuación de Dickey y Fuller es $y_t-y_{t-1}=(\phi_1-1)y_{t-1}+\epsilon_t$ donde se testea la hipotesis nula de que $\phi_1-1=0$ que podria ser contrastada respecto de la alternativa $\phi_1-1<0$, se utiliza el estdístico Tau. Dickey y Fuller demostraron que la definicion de la zona crítica depende, ademas del tamaño de la muestra, de la forma de la ecuación autorregresiva (por ejemplo, si incluye o no término independente o términos de tendencia determinístca) y definieron tres clases de valores críticos para ser utilizados en los casos que:
 
 + $\tau$: incluya término independiente ni término lineal
 + $\tau_\mu$: incluya término independiente, pero no incluya término lineal
 + $\tau_\tau$: incluya ambos términos
 
 \ Dado que el estimador de $\phi_1$ es positivo se trata de un test de una cola, se considerará que existen razones suficientes para rechazar la hipótesis nula si el valor del estadístico $\tau=\frac{\hat\phi_1-1}{\hat\sigma(\hat\phi_1)}$ es menor que el correspondiente valor $\tau$  
-\  
 \  
 \  Luego de identificar la estacionariedad (o no) de la serie se procede a la segunda parte de esta fase. Se debe identificar el orden de la parte autorregresiva (p) y de medias moviles (q).
 \  La determinación mas apropiada del orden del modelo se puede lograr con el uso de criterios objetivos de selección de modelos tales como Akaike (AIC), Schwarz (BIC) o Hannan-Quinn (HQ). Este análisis procede con AIC como criterio seleccionado.  
@@ -99,8 +96,7 @@ $$y_t=\phi_1y_{t-1}+...+\phi_py_{t-p}+\epsilon_t-\theta_1\epsilon_{t-1}-...-\the
 $$Q=T(T+2)\sum^M_{t=1}(T-t)^{-1}r^2_t$$
 se distribuye como una $\chi^2$ con $M-p-q$ grados de libertad.
 
-* *Test de normalidad de Jarque-Bera*: Pone a prueba la normalidad de los residuos. Bajo la hipótesis nula $\epsilon_t~Normal()$ contra una alternativa no específica. 
-\  El estadístico de Jarque-Bera es
+* *Test de normalidad de Jarque-Bera*: Pone a prueba la normalidad de los residuos. Bajo la hipótesis nula $\epsilon_t~Normal()$ contra una alternativa no específica. El estadístico de Jarque-Bera es
 
 $$JB=\frac{n}{4}(S^2+\frac{(C-3)^2}{4})$$
 
@@ -122,14 +118,12 @@ $$t_{N-p-q-\delta}=\frac{\hat\phi_1-(\phi_1/H_0)}{\hat\sigma_\phi}$$
 
 \ Si después de aplicar los contrastes y análisis de los epigráfes anteriores se llega a la conclusión de que el modelo seleccionado no es adecuado, se debe  reformular el modelo.    
 \    
-\    
-\  Una vez que se seleccionó y validó el modelo, la **fase de predicción** consiste en en utiilzar este modelo en la predicción de valores futuros de la variable objeto de estudio.
-\  Dado un proceso ARMA $\phi(L)Y_t=\theta(L)\epsilon_t$ el valor que se trata predecir se expresa para el valor de $Y_{T+l}$ de la siguiente forma:
+\  Una vez que se seleccionó y validó el modelo, la **fase de predicción** consiste en en utiilzar este modelo en la predicción de valores futuros de la variable objeto de estudio. Dado un proceso ARMA $\phi(L)Y_t=\theta(L)\epsilon_t$ el valor que se trata predecir se expresa para el valor de $Y_{T+l}$ de la siguiente forma:
 
 $$Y_{T+l}=\phi_1Y_{T+l-1}+...+\phi_pY_{T+l-p}-\epsilon_{T+l}-\theta_{1}\epsilon_{T+l-1}-...-\theta_q\epsilon_{T+l-q}$$ 
 \ Para los modelos de medias moviles se cumple que el predictor se anula cuando $l>q$. En general, para el cálculo de predicciones de valores futuros se utiliza el modelo en la forma original ARMA, donde la parte AR esta constituída por coeficientes autorregresivos generalizados.
 
-```{r, message=FALSE}
+```{r, echo=FALSE, message=FALSE}
 library(moments)
 library(tseries)
 library(urca)
@@ -165,40 +159,29 @@ promedioB<-c(mean(SerieB))
 varianzaB<-c(var(SerieB))
 desvioB<-c(sqrt(var(SerieB)))
 
-
-
-Analisis_DescriptivoA<-c(minimoA,maximoA,percentil1A,medianaA,percentil3A,asimetriaA,kurtosisA, promedioA, varianzaA, desvioA)
-Analisis_DescriptivoB<-c(minimoB,maximoB,percentil1B,medianaB,percentil3B,asimetriaB,kurtosisB, promedioB, varianzaB, desvioB)
-nombres<-c("Minimo","Maximo","Percentil 0.25","Mediana","Percentil 0.75","Coef Asimetria","Coef Curtosis", "Promedio", "Varianza", "Desvio")
-names(Analisis_DescriptivoA)<-nombres
-names(Analisis_DescriptivoB)<-nombres
-
-knitr::kable(Analisis_DescriptivoA,align="l")
-knitr::kable(Analisis_DescriptivoB,align="l")
+matrizAnalisisDescriptivo<-matrix(c(minimoA,maximoA,percentil1A,medianaA,percentil3A,asimetriaA,kurtosisA, promedioA, varianzaA, desvioA), c(minimoB,maximoB,percentil1B,medianaB,percentil3B,asimetriaB,kurtosisB, promedioB, varianzaB, desvioB), nrow = 10, ncol = 2,dimnames = list(c("Minimo","Maximo","Percentil 0.25","Mediana","Percentil 0.75","Coef Asimetria","Coef Curtosis", "Promedio", "Varianza", "Desvio"), c("Serie A", "Serie B")))
+knitr::kable(matrizAnalisisDescriptivo)
 
 ```
 
-###Fase de identificación
+#### Fase de identificación
 
-\ Se grafican la series para una primera impresión
+\ Se grafican la series y sus funciones de autocovarianza y autocorrelacion para una primera impresión
   
-```{r, echo=FALSE}
-plot(SerieA)
-plot(SerieB)
-boxplot(SerieA, main= "Grafico de BoxPlot Serie A", col = "red", horizontal = T)
-boxplot(SerieB, main= "Grafico de BoxPlot Serie B", col = "red", horizontal = T)
+```{r, echo=FALSE, fig.width=20, fig.height=15}
+par(mfrow=c(1,2))
+boxplot(SerieA, main= "Grafico de BoxPlot Serie A", horizontal = T)
+boxplot(SerieB, main= "Grafico de BoxPlot Serie B", horizontal = T)
 ```
 
-\ El gráfico de ambas series permite observar una reversion a la media (posiblemente cero). Se ve que ocurre con la FAC y FACP estimada,
-
 ```{r, echo=FALSE}
-par(mfrow=c(1,3))
-acf(SerieA,main="FAS Serie A",type="covariance", col = c("blue", "orange"))
-acf(SerieA,main="FAC Serie A", col = c("blue", "orange"))
-pacf(SerieA,main="FACP Serie A", col = c("blue", "orange"))
-acf(SerieB,main="FAS Serie B",type="covariance", col = c("blue", "orange"))
-acf(SerieB,main="FAC Serie B", col = c("blue", "orange"))
-pacf(SerieB,main="FACP Serie B", col = c("blue", "orange"))
+par(mfrow=c(2,3))
+acf(SerieA,main="FAS Serie A", type="covariance")
+acf(SerieA,main="FAC Serie A")
+pacf(SerieA,main="FACP Serie A")
+acf(SerieB,main="FAS Serie B", type="covariance")
+acf(SerieB,main="FAC Serie B")
+pacf(SerieB,main="FACP Serie B")
 ```
 
 \ Para la serie A, el gráfico de la FAC muestra un decrecimiento sinusoidal. En cuanto a la serie B, a través de la FACP se verifica que decrece lentamente de manera sinusoidal. Por otro lado, la FAC se anula al primer rezago. Los gráficos proponen la posibilidad de que la serie B sea un proceso de medias moviles no estacionaro. Para confirmar estas intuiciones son realizados los correspondientes tests de Dickey-Füller con el objetivo de determinar la existencia o no de raíces unitarias.
@@ -212,46 +195,36 @@ drift.dfB<-ur.df(SerieB,type="drift",lags=4)
 none.dfB<-ur.df(SerieB,type="none",lags=4)
 ```
 
-#\ Los valores de Tau empíricos para cada modelo son:  
+#### Los valores de Tau empíricos para cada modelo son:  
 
 ```{r, echo=FALSE}
-t_empiricosA<-c(none.dfA@teststat,drift.dfA@teststat[1,1],trend.dfA@teststat[1,1])
-names(t_empiricosA)<-c("None","Con Drift","Con Trend")
-t_empiricosB<-c(none.dfB@teststat,drift.dfB@teststat[1,1],trend.dfB@teststat[1,1])
-names(t_empiricosB)<-c("None","Con Drift","Con Trend")
 
-knitr::kable(t_empiricosA)
-knitr::kable(t_empiricosB)
+matrizTauEmpiricos<- matrix(c(none.dfA@teststat,drift.dfA@teststat[1,1],trend.dfA@teststat[1,1]), c(none.dfB@teststat,drift.dfB@teststat[1,1],trend.dfB@teststat[1,1]), nrow = 3, ncol = 2,dimnames = list(c("None","Con Drift","Con Trend"), c("Serie A", "Serie B")))
+knitr::kable(matrizTauEmpiricos)
 
 ```
 
-\ Y los respectivos valores criticos de Tau son
+#### Y los respectivos valores criticos de Tau son
 
 ```{r, echo=FALSE}  
 a<-c(none.dfA@cval[1,1:3])
 b<-c(drift.dfA@cval[1,1:3])
 c<-c(trend.dfA@cval[1,1:3])
-d<-c(none.dfB@cval[1,1:3])
-e<-c(drift.dfB@cval[1,1:3])
-f<-c(trend.dfB@cval[1,1:3])
-tau_critA<-rbind(a,b,c)
-tau_critB<-rbind(d,e,f)
-rownames(tau_critA)<-c("None","Con Drift","Con Trend")
-rownames(tau_critB)<-c("None","Con Drift","Con Trend")
+tau_crit<-rbind(a,b,c)
+rownames(tau_crit)<-c("None","Con Drift","Con Trend")
 
-knitr::kable(tau_critA)
-knitr::kable(tau_critB)
+knitr::kable(tau_crit)
 ```
 
 \ Para la serie A se puede afirmar con un nivel de significatividad aproximado a 5% que la serie es no estacionaria para todos los modelos. En cuanto a la serie B, existe evidencia suficiente para no rechazar la hipótesis nula de estacionariedad para modelos *none* y *drift*. Sin embargo, se rechaza para un modelo con tendencia. (Supone un $\alpha$ del 5%)    
 
-##Fase de estimacion
+#### Fase de estimacion
 
-\ A continuacion, se evaluaron todas las posibles combinaciones de modelos ARIMA (p,d,q) con p, d y q entre cero y tres con el fin de seleccionar aquel que mejor ajusta en base a los criterios de informacion vistos en clase.
+\ A continuacion, se evaluaron todas las posibles combinaciones de modelos ARIMA (p,d,q) con p, d y q entre cero cuatro y tres con el fin de seleccionar aquel que mejor ajusta en base a los criterios de informacion vistos en clase.
 
 
 ```{r, echo=FALSE, warning=FALSE}
-coefs = c(0,1,2,3)
+coefs = c(0,1,2,3,4)
 
 rowNames = c()
 
@@ -327,19 +300,22 @@ sprintf("Para la serie B, el menor BIC fue de %s para el modelo %s", minBICserie
 
 \ Para la Serie A, el modelo que mejor se ajusta segun el criterio BIC es un ARIMA (2,1,1). Para la Serie B, el que mejor se ajusta segun BIC es el modelo ARIMA (0,1,2)
 
-```{r}
+```{r, echo=FALSE}
 ModeloA<-arima(SerieA, order=c(2,1,1))
-ModeloB<-arima(SerieB, order=c(0,1,2))
 ```
 
 $$y_t=-1.2741y_{t-1}-0.7230y_{t-1}+0.6280\epsilon_{t-1}$$
+```{r, echo=FALSE}
+ModeloB<-arima(SerieB, order=c(0,1,2))
+```
+
 $$\hat{y_t}=1.2202\epsilon_{t-1}-0.3677\epsilon_{t-2}$$
 
-##Fase de validación
+#### Fase de validación
 
-\ Se demuestra primero que los coeficientes del modelo estimado son significativos. Para esto es utilizada una función que devuelve un mensaje
+\ Se demuestra primero que los coeficientes del modelo estimado son significativos. Para esto es utilizada una función que devuelve un mensaje. Se ingresan los modelos estimado como input y el codigo devuelve
 
-```{r}
+```{r, echo=FALSE}
 TestT<-function(modelo){
   for(i in 1:length(modelo$coef)) {
       a=abs(modelo$coef[i]/sqrt(modelo$var.coef[i,i]))
@@ -350,45 +326,39 @@ TestT<-function(modelo){
       }
   }
 }
-```
 
-\ Se ingresan los modelos estimado como input y el codigo devuelve
-
-```{r}
 TestT(ModeloA)
 TestT(ModeloB)
 ```
 
 \ El siguiente paso es que los modelos cumplan con las condiciones de estacionariedad e invertibilidad.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.width=5, fig.height=10}
+par(mfrow=c(1,2))
 plot(ModeloA)
 plot(ModeloB)
 ```
 
-\ Las raices caen dentro del circulo unidad  
-\ Ahora se analiza la normalidad de los residuos. Para ello se realiza un gráfico de *qqnorm* que compara los cuantiles teóricos de la distribución normal con los de los residuos de la serie.
+\ Las raices caen dentro del circulo unidad. Ahora se analiza la normalidad de los residuos. Para ello se realiza un gráfico de *qqnorm* que compara los cuantiles teóricos de la distribución normal con los de los residuos de la serie.
 
-```{r}
-qqnorm(ModeloA$residuals)
+```{r, echo=FALSE, fig.width=10, fig.height=10}
+par(mfrow=c(2,2))
+qqnorm(ModeloA$residuals, main="QQ-Plot Serie A")
 qqline(ModeloA$residuals)
-qqnorm(ModeloB$residuals)
+qqnorm(ModeloB$residuals, main="QQ-Plot Serie B")
 qqline(ModeloB$residuals)
 ```
-\ Se observa que los cuantiles teóricos coinciden con los cuantiles de los residuos.
 
-\ Para complementar el **analisis de normalidad** es realizado un test de Jarque Bera
+\ Se observa que los cuantiles teóricos coinciden con los cuantiles de los residuos. Para complementar el **analisis de normalidad** es realizado un test de Jarque Bera
 
-```{r}
+```{r, eval=FALSE, echo=FALSE, fig.width=10, fig.height=10}
 jarque.bera.test(ModeloA$residuals)
 jarque.bera.test(ModeloB$residuals)
 ```
 
-\  Como los *p-value* de ambas series son considerablemente mayores a un $\alpha$ de 0.1 no se rechaza la hipotesis nula de normalidad de los reisudos.
-\  
-\ Por ultimo, la **incorrelacion de los residuos** es analizada. Se ejecuta el test de Ljung-Box y se obtiene,
+\  Como los *p-value* de ambas series son considerablemente mayores a un $\alpha$ de 0.1 no se rechaza la hipotesis nula de normalidad de los reisudos. Por ultimo, la **incorrelacion de los residuos** es analizada. Se ejecuta el test de Ljung-Box y se obtiene,
 
-```{r}
+```{r, eval= FALSE,echo=FALSE, fig.width=10, fig.height=10}
 Box.test(ModeloA$residuals,lag=4,type ="Ljung-Box",fitdf = 3)
 Box.test(ModeloA$residuals,lag=6,type ="Ljung-Box",fitdf = 3)
 Box.test(ModeloA$residuals,lag=8,type ="Ljung-Box",fitdf = 3)
@@ -399,17 +369,16 @@ Box.test(ModeloB$residuals,lag=8,type ="Ljung-Box",fitdf = 3)
 
 \ Los test de incorrelación para rezagos de 4, 6, y 8 arrojan respectivamente valores *p* mayores a un $\alpha$ de 0.1. Por lo tanto, hay suficiente evidencia de que los residuos de ambos modelos estan incorrelacionados para valores defasados.
 
-## Fase de Predicción
+#### Fase de Predicción
 
 \  Para la serie B no es correcto predecir a partir de un modelo de medias móviles. Sin embargo, se ejecuta el código para observar los resultados. La predicción finalmente para un horizonte de uno, dos, tres y veinte periodos y con un nivel de confianza al 95% es.
 
-```{r}
-par(mfrow=c(2,2))
+```{r, echo=FALSE, fig.width=10, fig.height=15}
+par(mfrow=c(4,2))
 plot(forecast(ModeloA, 1,level=95), main="Prediccion 1 periodo A")
 plot(forecast(ModeloA, 2,level=95), main="Prediccion 2 periodos A")
 plot(forecast(ModeloA, 3,level=95), main="Prediccion 3 periodos A")
 plot(forecast(ModeloA, 20,level=95), main="Prediccion 20 periodos A")
-par(mfrow=c(2,2))
 plot(forecast(ModeloB, 1,level=95), main="Prediccion 1 periodo B")
 plot(forecast(ModeloB, 2,level=95), main="Prediccion 2 periodos B")
 plot(forecast(ModeloB, 3,level=95), main="Prediccion 3 periodos B")
@@ -447,38 +416,40 @@ rownames(y)<-argumentos
 
 knitr::kable(x,
    align="l",
-   caption="Intervalos de confianza para el Modelo A"
+   caption="Intervalos de confianza para el Modelo A",
+   digits = 4
 )
 
 knitr::kable(y,
    align="l",
-   caption="Intervalos de confianza para el Modelo B"
+   caption="Intervalos de confianza para el Modelo B",
+   digits = 4
 )
 ```
 
 \ Efectuado el analisis, se procede a exportar los datos en formato CSV
 
-```{r}
+```{r, echo=FALSE}
 Serie_estimadaA<-c(SerieA,forecast(ModeloA, 20, level=95)$mean)
-write.csv(Serie_estimadaA,"/Users/iborovsky/Desktop/TPR/SerieEstimadaA.csv")
 Serie_extendidaB<-c(SerieB,forecast(ModeloB, 20, level=95)$mean)
+write.csv(Serie_estimadaA,"/Users/iborovsky/Desktop/TPR/SerieEstimadaA.csv")
 write.csv(Serie_extendidaB,"/Users/iborovsky/Desktop/TPR/SerieEstimadaB.csv")
 ```
 
-# Conclusiones
+#### Conclusiones
 
 \  Se realizaron dos análisis, uno por cada serie.  
 \    
-\  La primer serie resultó ser no estacionaria. Se modelizó la misma para un ARIMA(2,1,1) donde se verificaron todos los supuestos vistos en el curso y finalmente concluyó con una predicción para diez períodos.  
+\  La primer serie resultó ser no estacionaria y se modelizó la misma para un ARIMA(2,1,1). En cuanto a la segunda serie, tampoco pudo demostrarse su estacionariedad. El modelo indicado fue un ARIMA (0,1,2).
+En ambas series se verificaron todos los supuestos vistos en el curso y finalmente concluyó con una predicción para uno, dos, tres y veinte períodos.  
 \  
-\  En cuanto a la segunda serie, tampoco pudo demostrarse su estacionariedad. El modelo indicado fue un ARIMA (0,1,2) que cumplió con todos los supuestos, tanto los de invertibilidad y como aquellos correspondientes a los residuos. Su predicción arrojó un resultado ambiguo por los motivos expresados con anterioridad.  
 
-# Futuras investigaciones y limitaciones
+#### Futuras investigaciones y limitaciones
 
 \  El análisis efectuado se limitó a los modelos de la familia ARIMA. No se tomó en cuenta la posibilidad de realizar una diferencación fraccionaria, ni modelizar la serie en otras familias de modelos para series de tiempo.    
 \  Por otra parte, se utilizaron los tests vistos y estudiados en la materia *751-Estadistica Actuarial*. Como se utilizó Dickey-Fuller para el análisis de raíces unitaras se pudieron haber utilizado otros tests como el de KPSS o Phillips-Perron.
 
-# Bibliografía
+#### Bibliografía
 
 * *Analisis de series temporales: modelos ARIMA* - Ezequiel Uriel Jimenez; Valencia, España, 1985.
 * *"Time Series Analysis. Forecasting and Control. Fourth edition"* - George E. P. Box, Gwilym M. Jenkins, Gregory C. Reinsel.
