@@ -462,6 +462,9 @@ Por lo tanto la inversión en este activo financiero no sería adecuada. De todo
 \  El análisis efectuado se limitó a los modelos de la familia ARIMA. No se tomó en cuenta la posibilidad de realizar una diferencación fraccionaria, ni modelizar la serie en otras familias de modelos para series de tiempo.    
 \  Por otra parte, se utilizaron los tests vistos y estudiados en la materia *751-Estadistica Actuarial*. Como se utilizó Dickey-Fuller para el análisis de raíces unitaras se pudieron haber utilizado otros tests como el de KPSS o Phillips-Perron.
 
+\ 
+\ 
+
 #### Bibliografía
 
 * *Analisis de series temporales: modelos ARIMA* - Ezequiel Uriel Jimenez; Valencia, España, 1985.
