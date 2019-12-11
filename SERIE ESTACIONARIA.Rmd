@@ -6,11 +6,13 @@ author:
 - Cohen Falah, Iván Nahuel (890.693)
 - Lopatka, Lucas Eitán (889.524)
 - Borovsky , Ignacio Ariel(891.119)
-html_document: default
+indent: yes
 output:
   pdf_document: default
+  word_document: default
   html_document: default
-indent: true
+html_document: default
+geometry: margin=2cm
 ---
   
 # Introducción  
@@ -168,13 +170,13 @@ knitr::kable(matrizAnalisisDescriptivo)
 
 \ Se grafican la series y sus funciones de autocovarianza y autocorrelacion para una primera impresión
   
-```{r, echo=FALSE, fig.width=20, fig.height=15}
+```{r, echo=FALSE, fig.width=20, fig.height=5}
 par(mfrow=c(1,2))
 boxplot(SerieA, main= "Grafico de BoxPlot Serie A", horizontal = T)
 boxplot(SerieB, main= "Grafico de BoxPlot Serie B", horizontal = T)
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.width=20, fig.height=10}
 par(mfrow=c(2,3))
 acf(SerieA,main="FAS Serie A", type="covariance")
 acf(SerieA,main="FAC Serie A")
@@ -333,7 +335,7 @@ TestT(ModeloB)
 
 \ El siguiente paso es que los modelos cumplan con las condiciones de estacionariedad e invertibilidad.
 
-```{r, echo=FALSE, fig.width=5, fig.height=10}
+```{r, echo=FALSE, fig.width=5, fig.height=5, out.width = "60%", out.height="60%"}
 par(mfrow=c(1,2))
 plot(ModeloA)
 plot(ModeloB)
@@ -341,8 +343,8 @@ plot(ModeloB)
 
 \ Las raices caen dentro del circulo unidad. Ahora se analiza la normalidad de los residuos. Para ello se realiza un gráfico de *qqnorm* que compara los cuantiles teóricos de la distribución normal con los de los residuos de la serie.
 
-```{r, echo=FALSE, fig.width=10, fig.height=10}
-par(mfrow=c(2,2))
+```{r, echo=FALSE, fig.width=20, fig.height=10, out.width = "100%", out.height="100%"}
+par(mfrow=c(2,2), mgp = c(4, 1, 0))
 qqnorm(ModeloA$residuals, main="QQ-Plot Serie A")
 qqline(ModeloA$residuals)
 qqnorm(ModeloB$residuals, main="QQ-Plot Serie B")
@@ -373,8 +375,8 @@ Box.test(ModeloB$residuals,lag=8,type ="Ljung-Box",fitdf = 3)
 
 \  Para la serie B no es correcto predecir a partir de un modelo de medias móviles. Sin embargo, se ejecuta el código para observar los resultados. La predicción finalmente para un horizonte de uno, dos, tres y veinte periodos y con un nivel de confianza al 95% es.
 
-```{r, echo=FALSE, fig.width=10, fig.height=15}
-par(mfrow=c(4,2))
+```{r, echo=FALSE, fig.width=20, fig.height=15, out.height="75%", out.width="100%"}
+par(mfrow=c(2,4))
 plot(forecast(ModeloA, 1,level=95), main="Prediccion 1 periodo A")
 plot(forecast(ModeloA, 2,level=95), main="Prediccion 2 periodos A")
 plot(forecast(ModeloA, 3,level=95), main="Prediccion 3 periodos A")
@@ -454,4 +456,3 @@ En ambas series se verificaron todos los supuestos vistos en el curso y finalmen
 * *Analisis de series temporales: modelos ARIMA* - Ezequiel Uriel Jimenez; Valencia, España, 1985.
 * *"Time Series Analysis. Forecasting and Control. Fourth edition"* - George E. P. Box, Gwilym M. Jenkins, Gregory C. Reinsel.
 * *Acerca de la probabilidad* - Alberto H Landro, 2010.
-
