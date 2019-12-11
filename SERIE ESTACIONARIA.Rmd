@@ -1,17 +1,18 @@
 ---
-title: "Trabajo Práctico Final - Estadística Actuarial (751-1)"
-author:
-- Zajdenberg, Dana Rebeca (892.786)
-- Barrales Agosti, Julián Guido (889.901)
-- Cohen Falah, Iván Nahuel (890.693)
-- Lopatka, Lucas Eitán (889.524)
-- Borovsky , Ignacio Ariel(891.119)
+title: "Trabajo Práctico Final - Estadística Actuarial (751-1)"  
+
+author:  
+
+  - Zajdenberg, Dana Rebeca (892.786)
+  - Barrales Agosti, Julián Guido (889.901)
+  - Cohen Falah, Iván Nahuel (890.693)
+  - Lopatka, Lucas Eitán (889.524)
+  - Borovsky, Ignacio Ariel(891.119)
 indent: yes
 output:
   pdf_document: default
   word_document: default
   html_document: default
-html_document: default
 geometry: margin=2cm
 ---
   
@@ -23,15 +24,15 @@ geometry: margin=2cm
 # Marco teórico  
 \  
 \  
-\ Se define un proceso estocástico como una familia de variables aleatorias que corresponden a momentos sucesivos del tiempo. Será designado por $Y_(t,u)$ donde $t$ es el timepo y $u$ es la variable aleatoria.  
+\ Se define un proceso estocástico como una familia de variables aleatorias que corresponden a momentos sucesivos del tiempo. Será designado por $Y_(t,u)$ donde $t$ es el tiempo y $u$ es la variable aleatoria.  
   
 \ En el siguiente trabajo, se trabajará con una clase especial de los procesos estocásticos: los procesos lineales. Estos procesos se caracterizan porque se pueden representar como una combinación lineal de variables aleatorias.   
 
 \ Son entonces procesos estocasticos lineales:  
 
-* El proceso puramente aleatorio $$Y_t=e_t$$ donde $e_t$ satisface las siguientes propiedades: 
-$$E[e_t]=0$$ $$E[e_t]^2=sigma^2$$ $$E[e_t,e_t]=0$$  
-En el tratamiento de series temporales, se suele designar a este proceso con la denominacion de "ruido blanco". De ahora en adelante, por $e_t$ se designa únicamente a una variable aleatoria que goza de dichas propiedades
+* El proceso puramente aleatorio $Y_t$=$\epsilon_t$ donde $\epsilon_t$ satisface las siguientes propiedades: 
+$E[\epsilon_t]=0$, $E[\epsilon_t]^2=\sigma^2$ y $E[\epsilon_t,\epsilon_t]=0$
+En el tratamiento de series temporales, se suele designar a este proceso con la denominacion de "ruido blanco". De ahora en adelante, por $\epsilon_t$ se designa únicamente a una variable aleatoria que goza de dichas propiedades
 
 * El proceso autoregresivo de orden *p* AR(P) se expresa de la siguiente forma, $$y_t=\phi_1y_{t-1}+\phi_2y_{t-2}+...+\phi_py_{t-p}$$
 Al ser p el lag máximo que aparece en el proceso, la denominación de autorregresivo procede de que $y_t$ se obtiene mediante una regresión sobre valores desfasados de la propia variable.
@@ -75,14 +76,14 @@ $$y_t=\phi_1y_{t-1}+...+\phi_py_{t-p}+\epsilon_t-\theta_1\epsilon_{t-1}-...-\the
   
 \ La ecuación de Dickey y Fuller es $y_t-y_{t-1}=(\phi_1-1)y_{t-1}+\epsilon_t$ donde se testea la hipotesis nula de que $\phi_1-1=0$ que podria ser contrastada respecto de la alternativa $\phi_1-1<0$, se utiliza el estdístico Tau. Dickey y Fuller demostraron que la definicion de la zona crítica depende, ademas del tamaño de la muestra, de la forma de la ecuación autorregresiva (por ejemplo, si incluye o no término independente o términos de tendencia determinístca) y definieron tres clases de valores críticos para ser utilizados en los casos que:
 
-+ $\tau$: incluya término independiente ni término lineal
++ $\tau$: no incluya término independiente ni término lineal
 + $\tau_\mu$: incluya término independiente, pero no incluya término lineal
 + $\tau_\tau$: incluya ambos términos
 
 \ Dado que el estimador de $\phi_1$ es positivo se trata de un test de una cola, se considerará que existen razones suficientes para rechazar la hipótesis nula si el valor del estadístico $\tau=\frac{\hat\phi_1-1}{\hat\sigma(\hat\phi_1)}$ es menor que el correspondiente valor $\tau$  
 \  
 \  Luego de identificar la estacionariedad (o no) de la serie se procede a la segunda parte de esta fase. Se debe identificar el orden de la parte autorregresiva (p) y de medias moviles (q).
-\  La determinación mas apropiada del orden del modelo se puede lograr con el uso de criterios objetivos de selección de modelos tales como Akaike (AIC), Schwarz (BIC) o Hannan-Quinn (HQ). Este análisis procede con AIC como criterio seleccionado.  
+\  La determinación mas apropiada del orden del modelo se puede lograr con el uso de criterios objetivos de selección de modelos tales como Akaike (AIC), Schwarz (BIC) o Hannan-Quinn (HQ). Este análisis procede con BIC como criterio seleccionado.  
 \    
 \  La **fase de estimación** consiste entonces en obtener los estimadores de los parámetros del modelo identificado. Existen diversos métodos de estimación para modelos ARMA como el método de mínimos cuadrados y el método de máxima verosimilitud. Se utilizará el primero.    
 \    
@@ -110,7 +111,7 @@ donde *S* es el coeficiente de asimetría de los residuos y C el coeficiente de 
 
 $$t_{N-p-q-\delta}=\frac{\hat\phi_1-(\phi_1/H_0)}{\hat\sigma_\phi}$$
 
-\  Los modelos ARIMA se aplican en general a muestras grandes, por lo que se pueden utilizar los niveles de significación de la normal. Asi, a *groso modo* se rechazaría la hipotesis nula de que $\phi_1=0$, para un nivel de significación del 5% cuando $|t^*|>2$
+\  Los modelos ARIMA se aplican en general a muestras grandes, por lo que se pueden utilizar los niveles de significación de la normal. Asi, a *groso modo* se rechazaría la hipotesis nula de que $\phi_1=0$, para un nivel de significación del 5% cuando $|t^*|>=2$
 
 #### Bondad de ajuste
 
@@ -304,13 +305,15 @@ sprintf("Para la serie B, el menor AIC fue de %s para el modelo %s", minAICserie
 sprintf("Para la serie B, el menor BIC fue de %s para el modelo %s", minBICserieB, nameMinBICserieB)
 ```
 
-\ Para la Serie A, el modelo que mejor se ajusta segun el criterio BIC es un ARIMA (2,1,1). Para la Serie B, el que mejor se ajusta segun BIC es el modelo ARIMA (0,1,2)
+\ Para la Serie A, el modelo que mejor se ajusta segun el criterio BIC es un ARIMA (2,1,1).
 
 ```{r, echo=FALSE}
 ModeloA<-arima(SerieA, order=c(2,1,1))
 ```
 
-$$\hat{y_t}=-1.2741y_{t-1}-0.7230y_{t-2}+\epsilon_{t}+0.6280\epsilon_{t-1}$$
+$$\hat{y_t}=-1.2741y_{t-1}-0.7230y_{t-2}+0.6280\epsilon_{t-1}$$
+\ Para la Serie B, el que mejor se ajusta segun BIC es el modelo ARIMA (0,1,2)
+
 ```{r, echo=FALSE}
 ModeloB<-arima(SerieB, order=c(0,1,2))
 ```
@@ -449,8 +452,9 @@ write.csv(Serie_extendidaB,"/Users/iborovsky/Desktop/TPR/SerieEstimadaB.csv")
 
 \  Se realizaron dos análisis, uno por cada serie.  
 \    
-\  La primer serie resultó ser no estacionaria y se modelizó la misma para un ARIMA(2,1,1). En cuanto a la segunda serie, tampoco pudo demostrarse su estacionariedad. El modelo indicado fue un ARIMA (0,1,2).
-En ambas series se verificaron todos los supuestos vistos en el curso y finalmente concluyó con una predicción para uno, dos, tres y veinte períodos.  
+\ Ambas series resultaron ser no estacionarias y validaron todos los supuestos vistos en la materia, para luego concluir con una predicción para 20 periodos. Se modelizó la primer serie para un ARIMA(2,1,1) y la segunda para un ARIMA(0,1,2). Se observa que el activo financiero correspondiente a la serie A tiene un comportamiento que a lo largo del tiempo tiende al cero. Por lo tanto la inversión en este activo financiero no sería la más adecuada. De todos modos, se debería tener en cuenta que la predicción para un horizonte mayor a 2 en un modelo ARIMA(2,1,1) conlleva un error significativo. 
+Se observa que el activo financiero correspondiente a la serie B tiene un comportamiento que una vez superado el orden de la parte MA del modelo, es constante y aproximadamente cero.
+Por lo tanto la inversión en este activo financiero no sería adecuada. De todos modos, se debería tener en cuenta que al realizar la predicción con un modelo MA se obtienen resultados muy poco certeros, con una gran carga de error. Es por ello que la decisión de invertir o no en dicho activo no puede basarse en esta predicción, se debrían buscar otros modelos que tengan unna mayor capacidad predictiva.
 \  
 
 #### Futuras investigaciones y limitaciones
