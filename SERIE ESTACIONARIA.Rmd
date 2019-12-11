@@ -131,6 +131,7 @@ library(tseries)
 library(urca)
 library(forecast)
 library(nortest)
+library(kableExtra)
 ```
 
 ```{r, echo=FALSE}
@@ -186,7 +187,7 @@ acf(SerieB,main="FAC Serie B")
 pacf(SerieB,main="FACP Serie B")
 ```
 
-\ Para la serie A, el gráfico de la FAC muestra un decrecimiento sinusoidal. En cuanto a la serie B, a través de la FACP se verifica que decrece lentamente de manera sinusoidal. Por otro lado, la FAC se anula al primer rezago. Los gráficos proponen la posibilidad de que la serie B sea un proceso de medias moviles no estacionaro. Para confirmar estas intuiciones son realizados los correspondientes tests de Dickey-Füller con el objetivo de determinar la existencia o no de raíces unitarias.
+\ Para la serie A, el gráfico de la FAC muestra un decrecimiento sinusoidal. En cuanto a la serie B, a través de la FACP se verifica que decrece lentamente de manera sinusoidal. Los gráficos proponen la posibilidad de que la serie B sea un proceso de medias moviles no estacionario. Para confirmar estas intuiciones son realizados los correspondientes tests de Dickey-Füller con el objetivo de determinar la existencia o no de raíces unitarias.
 
 ```{r, echo=FALSE}
 trend.dfA<-ur.df(SerieA,type="trend",lags=4)
@@ -198,8 +199,9 @@ none.dfB<-ur.df(SerieB,type="none",lags=4)
 ```
 
 #### Los valores de Tau empíricos para cada modelo son:  
+\ 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.height="10%"}
 
 matrizTauEmpiricos<- matrix(c(none.dfA@teststat,drift.dfA@teststat[1,1],trend.dfA@teststat[1,1]), c(none.dfB@teststat,drift.dfB@teststat[1,1],trend.dfB@teststat[1,1]), nrow = 3, ncol = 2,dimnames = list(c("None","Con Drift","Con Trend"), c("Serie A", "Serie B")))
 knitr::kable(matrizTauEmpiricos)
@@ -207,6 +209,7 @@ knitr::kable(matrizTauEmpiricos)
 ```
 
 #### Y los respectivos valores criticos de Tau son
+\ 
 
 ```{r, echo=FALSE}  
 a<-c(none.dfA@cval[1,1:3])
@@ -217,6 +220,7 @@ rownames(tau_crit)<-c("None","Con Drift","Con Trend")
 
 knitr::kable(tau_crit)
 ```
+\ 
 
 \ Para la serie A se puede afirmar con un nivel de significatividad aproximado a 5% que la serie es no estacionaria para todos los modelos. En cuanto a la serie B, existe evidencia suficiente para no rechazar la hipótesis nula de estacionariedad para modelos *none* y *drift*. Sin embargo, se rechaza para un modelo con tendencia. (Supone un $\alpha$ del 5%)    
 
@@ -306,7 +310,7 @@ sprintf("Para la serie B, el menor BIC fue de %s para el modelo %s", minBICserie
 ModeloA<-arima(SerieA, order=c(2,1,1))
 ```
 
-$$y_t=-1.2741y_{t-1}-0.7230y_{t-1}+0.6280\epsilon_{t-1}$$
+$$\hat{y_t}=-1.2741y_{t-1}-0.7230y_{t-2}+\epsilon_{t}+0.6280\epsilon_{t-1}$$
 ```{r, echo=FALSE}
 ModeloB<-arima(SerieB, order=c(0,1,2))
 ```
@@ -315,6 +319,7 @@ $$\hat{y_t}=1.2202\epsilon_{t-1}-0.3677\epsilon_{t-2}$$
 
 #### Fase de validación
 
+\ 
 \ Se demuestra primero que los coeficientes del modelo estimado son significativos. Para esto es utilizada una función que devuelve un mensaje. Se ingresan los modelos estimado como input y el codigo devuelve
 
 ```{r, echo=FALSE}
@@ -335,7 +340,7 @@ TestT(ModeloB)
 
 \ El siguiente paso es que los modelos cumplan con las condiciones de estacionariedad e invertibilidad.
 
-```{r, echo=FALSE, fig.width=5, fig.height=5, out.width = "60%", out.height="60%"}
+```{r, echo=FALSE, fig.width=5, fig.height=5, out.width = "60%", out.height="30%"}
 par(mfrow=c(1,2))
 plot(ModeloA)
 plot(ModeloB)
@@ -344,7 +349,7 @@ plot(ModeloB)
 \ Las raices caen dentro del circulo unidad. Ahora se analiza la normalidad de los residuos. Para ello se realiza un gráfico de *qqnorm* que compara los cuantiles teóricos de la distribución normal con los de los residuos de la serie.
 
 ```{r, echo=FALSE, fig.width=20, fig.height=10, out.width = "100%", out.height="100%"}
-par(mfrow=c(2,2), mgp = c(4, 1, 0))
+par(mfrow=c(1,2))
 qqnorm(ModeloA$residuals, main="QQ-Plot Serie A")
 qqline(ModeloA$residuals)
 qqnorm(ModeloB$residuals, main="QQ-Plot Serie B")
@@ -375,12 +380,16 @@ Box.test(ModeloB$residuals,lag=8,type ="Ljung-Box",fitdf = 3)
 
 \  Para la serie B no es correcto predecir a partir de un modelo de medias móviles. Sin embargo, se ejecuta el código para observar los resultados. La predicción finalmente para un horizonte de uno, dos, tres y veinte periodos y con un nivel de confianza al 95% es.
 
-```{r, echo=FALSE, fig.width=20, fig.height=15, out.height="75%", out.width="100%"}
-par(mfrow=c(2,4))
+```{r, echo=FALSE, fig.width=25, fig.height=10, out.height="60%", out.width="90%"}
+par(mfrow=c(2,2))
 plot(forecast(ModeloA, 1,level=95), main="Prediccion 1 periodo A")
 plot(forecast(ModeloA, 2,level=95), main="Prediccion 2 periodos A")
 plot(forecast(ModeloA, 3,level=95), main="Prediccion 3 periodos A")
 plot(forecast(ModeloA, 20,level=95), main="Prediccion 20 periodos A")
+```
+
+```{r, echo=FALSE, fig.width=25, fig.height=10, out.height="60%", out.width="90%"}
+par(mfrow=c(2,2))
 plot(forecast(ModeloB, 1,level=95), main="Prediccion 1 periodo B")
 plot(forecast(ModeloB, 2,level=95), main="Prediccion 2 periodos B")
 plot(forecast(ModeloB, 3,level=95), main="Prediccion 3 periodos B")
@@ -389,7 +398,7 @@ plot(forecast(ModeloB, 20,level=95), main="Prediccion 20 periodos B")
 
 \ Los valores de los gráficos son representados en los siguientes cuadros. Se calcularon los intervalos para el 94%, 95% y 99% de confianza. 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width="50%", out.height="50%"}
 argumentos <- c(1,2,3, 20)
 
 x<-cbind(
@@ -419,14 +428,12 @@ rownames(y)<-argumentos
 knitr::kable(x,
    align="l",
    caption="Intervalos de confianza para el Modelo A",
-   digits = 4
-)
+) %>% kable_styling(font_size = 5, latex_options = "hold_position", repeat_header_text="Intervalos de confianza para el Modelo A", repeat_header_method = "replace")
 
 knitr::kable(y,
    align="l",
    caption="Intervalos de confianza para el Modelo B",
-   digits = 4
-)
+) %>% kable_styling(font_size = 5, latex_options = "hold_position", repeat_header_text="Intervalos de confianza para el Modelo A", repeat_header_method = "replace")
 ```
 
 \ Efectuado el analisis, se procede a exportar los datos en formato CSV
